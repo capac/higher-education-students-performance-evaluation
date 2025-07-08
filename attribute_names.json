@@ -1,0 +1,278 @@
+{
+  "1": {
+    "name": "Student Age",
+    "options": {
+      "1": "18-21",
+      "2": "22-25",
+      "3": "above 26"
+    }
+  },
+  "2": {
+    "name": "Sex",
+    "options": {
+      "1": "female",
+      "2": "male"
+    }
+  },
+  "3": {
+    "name": "Graduated high-school type",
+    "options": {
+      "1": "private",
+      "2": "state",
+      "3": "other"
+    }
+  },
+  "4": {
+    "name": "Scholarship type",
+    "options": {
+      "1": "None",
+      "2": "25%",
+      "3": "50%",
+      "4": "75%",
+      "5": "Full"
+    }
+  },
+  "5": {
+    "name": "Additional work",
+    "options": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "6": {
+    "name": "Regular artistic or sports activity",
+    "options": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "7": {
+    "name": "Do you have a partner",
+    "options": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "8": {
+    "name": "Total salary if available",
+    "options": {
+      "1": "USD 135-200",
+      "2": "USD 201-270",
+      "3": "USD 271-340",
+      "4": "USD 341-410",
+      "5": "above 410"
+    }
+  },
+  "9": {
+    "name": "Transportation to the university",
+    "options": {
+      "1": "Bus",
+      "2": "Private car/taxi",
+      "3": "bicycle",
+      "4": "Other"
+    }
+  },
+  "10": {
+    "name": "Accommodation type in Cyprus",
+    "options": {
+      "1": "rental",
+      "2": "dormitory",
+      "3": "with family",
+      "4": "Other"
+    }
+  },
+  "11": {
+    "name": "Mother's education",
+    "options": {
+      "1": "primary school",
+      "2": "secondary school",
+      "3": "high school",
+      "4": "university",
+      "5": "MSc.",
+      "6": "Ph.D."
+    }
+  },
+  "12": {
+    "name": "Father's education",
+    "options": {
+      "1": "primary school",
+      "2": "secondary school",
+      "3": "high school",
+      "4": "university",
+      "5": "MSc.",
+      "6": "Ph.D."
+    }
+  },
+  "13": {
+    "name": "Number of sisters/brothers (if available)",
+    "options": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5 or above"
+    }
+  },
+  "14": {
+    "name": "Parental status",
+    "options": {
+      "1": "married",
+      "2": "divorced",
+      "3": "died - one of them or both"
+    }
+  },
+  "15": {
+    "name": "Mother's occupation",
+    "options": {
+      "1": "retired",
+      "2": "housewife",
+      "3": "government officer",
+      "4": "private sector employee",
+      "5": "self-employment",
+      "6": "other"
+    }
+  },
+  "16": {
+    "name": "Father's occupation",
+    "options": {
+      "1": "retired",
+      "2": "government officer",
+      "3": "private sector employee",
+      "4": "self-employment",
+      "5": "other"
+    }
+  },
+  "17": {
+    "name": "Weekly study hours",
+    "options": {
+      "1": "None",
+      "2": "<5 hours",
+      "3": "6-10 hours",
+      "4": "11-20 hours",
+      "5": "more than 20 hours"
+    }
+  },
+  "18": {
+    "name": "Reading frequency (non-scientific books/journals)",
+    "options": {
+      "1": "None",
+      "2": "Sometimes",
+      "3": "Often"
+    }
+  },
+  "19": {
+    "name": "Reading frequency (scientific books/journals)",
+    "options": {
+      "1": "None",
+      "2": "Sometimes",
+      "3": "Often"
+    }
+  },
+  "20": {
+    "name": "Attendance to the seminars/conferences related to the department",
+    "options": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "21": {
+    "name": "Impact of your projects/activities on your success",
+    "options": {
+      "1": "positive",
+      "2": "negative",
+      "3": "neutral"
+    }
+  },
+  "22": {
+    "name": "Attendance to classes",
+    "options": {
+      "1": "always",
+      "2": "sometimes",
+      "3": "never"
+    }
+  },
+  "23": {
+    "name": "Preparation to midterm exams 1",
+    "options": {
+      "1": "alone",
+      "2": "with friends",
+      "3": "not applicable"
+    }
+  },
+  "24": {
+    "name": "Preparation to midterm exams 2",
+    "options": {
+      "1": "closest date to the exam",
+      "2": "regularly during the semester",
+      "3": "never"
+    }
+  },
+  "25": {
+    "name": "Taking notes in classes",
+    "options": {
+      "1": "never",
+      "2": "sometimes",
+      "3": "always"
+    }
+  },
+  "26": {
+    "name": "Listening in classes",
+    "options": {
+      "1": "never",
+      "2": "sometimes",
+      "3": "always"
+    }
+  },
+  "27": {
+    "name": "Discussion improves my interest and success in the course",
+    "options": {
+      "1": "never",
+      "2": "sometimes",
+      "3": "always"
+    }
+  },
+  "28": {
+    "name": "Flip-classroom",
+    "options": {
+      "1": "not useful",
+      "2": "useful",
+      "3": "not applicable"
+    }
+  },
+  "29": {
+    "name": "Cumulative grade point average in the last semester (/4.00)",
+    "options": {
+      "1": "<2.00",
+      "2": "2.00-2.49",
+      "3": "2.50-2.99",
+      "4": "3.00-3.49",
+      "5": "above 3.49"
+    }
+  },
+  "30": {
+    "name": "Expected Cumulative grade point average in the graduation (/4.00)",
+    "options": {
+      "1": "<2.00",
+      "2": "2.00-2.49",
+      "3": "2.50-2.99",
+      "4": "3.00-3.49",
+      "5": "above 3.49"
+    }
+  },
+  "31": {
+    "name": "Course ID"
+  },
+  "32": {
+    "name": "OUTPUT Grade",
+    "options": {
+      "0": "Fail",
+      "1": "DD",
+      "2": "DC",
+      "3": "CC",
+      "4": "CB",
+      "5": "BB",
+      "6": "BA",
+      "7": "AA"
+    }
+  }
+}
