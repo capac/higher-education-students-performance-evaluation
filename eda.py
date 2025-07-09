@@ -38,7 +38,7 @@ for ax, col_count, col_name in zip(axs.flatten(), column_counts, column_names):
     ax.yaxis.set_tick_params(pad=3)
     plt.tight_layout(pad=1)
     plt.setp(ax.get_xticklabels(), rotation=45, ha='right')
-    plot_file = path_dir / 'attribute_bar_plots.png'
+    plot_file = path_dir / 'attribute_barplots.png'
     plt.savefig(plot_file, dpi=144, bbox_inches='tight')
 
 
