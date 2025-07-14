@@ -27,12 +27,11 @@ for col in column_names:
 
 fig, axs = plt.subplots(nrows=14, ncols=2, figsize=(13, 45))
 for ax, col_count, col_name in zip(axs.flatten(), column_counts, column_names):
+    col_name_index = list(attribute_names_json[col_name]['options'].values())
     if col_name in ['15', '22', '30']:
-        ax.bar(list(attribute_names_json[col_name]['options'].values())[:-1],
-               col_count.values)
+        ax.bar(col_name_index[:-1], col_count.values)
     else:
-        ax.bar(list(attribute_names_json[col_name]['options'].values()),
-               col_count.values)
+        ax.bar(col_name_index, col_count.values)
     ax.set_ylabel('Counts', fontsize=10)
     ax.set_title(attribute_names_json[col_name]['name'], fontsize=11)
     ax.yaxis.set_tick_params(pad=3)
