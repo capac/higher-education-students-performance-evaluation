@@ -1,0 +1,20 @@
+name: mlops-zoomcamp
+channels:
+  - defaults
+  - conda-forge
+  - https://repo.anaconda.com/pkgs/main
+  - https://repo.anaconda.com/pkgs/r
+dependencies:
+  - xgboost
+  - matplotlib
+  - mlflow
+  - pandas
+  - prefect
+  - python=3.9
+  - scikit-learn
+  - jupyterlab
+  - pipenv
+  - evidently
+  - psycopg
+  - hyperopt
+prefix: /opt/miniconda3/envs/mlops-zoomcamp
