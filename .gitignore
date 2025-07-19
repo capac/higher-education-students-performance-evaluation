@@ -215,3 +215,6 @@ __marimo__/
 # MLflow SQLite DB
 mlflow.db
 
+# MLflow artifacts and mlruns folders
+artifacts/
+mlruns/
