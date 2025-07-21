@@ -76,9 +76,9 @@ X_test_tr = preprocessing.transform(X_test)
 
 experiment_name = 'higher-education-students-performance-evaluation'
 mlflow.set_tracking_uri('sqlite:///mlflow.db')
-mlflow.create_experiment(experiment_name, artifact_location="artifacts")
-mlflow.set_experiment(experiment_name)
-
+experiment = mlflow.get_experiment_by_name(experiment_name)
+if experiment is None:
+    mlflow.create_experiment(experiment_name, artifact_location='artifacts')
 
 # Scikit-Learn Classifiers
 mlflow.sklearn.autolog()

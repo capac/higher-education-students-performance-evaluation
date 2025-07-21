@@ -228,8 +228,11 @@ def main_flow(
     # MLflow settings
     experiment_name = 'higher-education-students-performance-evaluation'
     mlflow.set_tracking_uri('sqlite:///mlflow.db')
-    # mlflow.create_experiment(experiment_name, artifact_location="artifacts")
-    mlflow.set_experiment(experiment_name)
+    experiment = mlflow.get_experiment_by_name(experiment_name)
+    if experiment is None:
+        mlflow.create_experiment(
+            experiment_name, artifact_location='artifacts'
+            )
 
     # Load data from file
     sp_df = read_data(data_file)
