@@ -79,6 +79,7 @@ mlflow.set_tracking_uri('sqlite:///mlflow.db')
 experiment = mlflow.get_experiment_by_name(experiment_name)
 if experiment is None:
     mlflow.create_experiment(experiment_name, artifact_location='artifacts')
+mlflow.set_experiment(experiment_name)
 
 # Scikit-Learn Classifiers
 mlflow.sklearn.autolog()

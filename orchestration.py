@@ -44,7 +44,9 @@ xgb_model_file = work_dir / 'models/xgb_cls.bin'
 
 
 @task(retries=3, retry_delay_seconds=2)
-def read_data(data_file: str) -> pd.DataFrame:
+def read_data(
+    data_file: Path = work_dir / 'data/students-performance.csv'
+) -> pd.DataFrame:
     """Read data file into data frame"""
     with open(attribute_names_json_file, 'rt') as f_in:
         attribute_names_json = json.load(f_in)
@@ -233,6 +235,7 @@ def main_flow(
         mlflow.create_experiment(
             experiment_name, artifact_location='artifacts'
             )
+    mlflow.set_experiment(experiment_name)
 
     # Load data from file
     sp_df = read_data(data_file)
