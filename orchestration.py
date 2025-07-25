@@ -90,7 +90,7 @@ def add_features(sp_df: pd.DataFrame) -> Tuple[
     X_train_tr = preprocessing.fit_transform(X_train)
     X_test_tr = preprocessing.transform(X_test)
 
-    return X_train_tr, X_test_tr, y_train, y_test
+    return X_train_tr, X_test_tr, y_train, y_test, preprocessing
 
 
 # Scikit-Learn Classifiers
@@ -100,6 +100,7 @@ def train_best_sklearn_model(
     X_test_tr: scipy.sparse.csr_matrix,
     y_train: np.ndarray,
     y_test: np.ndarray,
+    preprocessing: ColumnTransformer,
 ) -> None:
     """train Scikit-Learn models and save results to MLflow"""
 
@@ -127,7 +128,7 @@ def train_best_sklearn_model(
             Path("models").mkdir(exist_ok=True)
             model_file = f'models/{model_name}.bin'
             with open(model_file, 'wb') as f_out:
-                pickle.dump(model_class, f_out)
+                pickle.dump((preprocessing, model_class), f_out)
 
 
 # XGBoost Classifier with hyperparameter tuning
@@ -137,6 +138,7 @@ def train_best_xgboost_model(
     X_test_tr: scipy.sparse.csr_matrix,
     y_train: np.ndarray,
     y_test: np.ndarray,
+    preprocessing: ColumnTransformer,
 ) -> None:
     """Train XGBoost models with best hyperparams and save results to MLflow"""
 
@@ -212,7 +214,7 @@ def train_best_xgboost_model(
 
         Path("models").mkdir(exist_ok=True)
         with open(xgb_model_file, 'wb') as f_out:
-            pickle.dump(xgboost_clf, f_out)
+            pickle.dump((preprocessing, xgboost_clf), f_out)
 
         mlflow.log_artifact(xgb_model_file, artifact_path='best_models')
 
@@ -241,13 +243,17 @@ def main_flow(
     sp_df = read_data(data_file)
 
     # Transform to traning and testing data
-    X_train_tr, X_test_tr, y_train, y_test = add_features(sp_df)
+    X_train_tr, X_test_tr, y_train, y_test, preprocessing = add_features(sp_df)
 
     # Train best Scikit-Learn models
-    train_best_sklearn_model(X_train_tr, X_test_tr, y_train, y_test)
+    train_best_sklearn_model(
+        X_train_tr, X_test_tr, y_train, y_test, preprocessing
+        )
 
     # Train best XGBoost model
-    train_best_xgboost_model(X_train_tr, X_test_tr, y_train, y_test)
+    train_best_xgboost_model(
+        X_train_tr, X_test_tr, y_train, y_test, preprocessing
+        )
 
 
 if __name__ == "__main__":

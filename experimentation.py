@@ -107,7 +107,7 @@ for model_name, model_class in zip(model_names, model_classifiers):
 
         model_file = f'models/{model_name}.bin'
         with open(model_file, 'wb') as f_out:
-            pickle.dump(model_class, f_out)
+            pickle.dump((preprocessing, model_class), f_out)
 
 
 # XGBoost Classifier with hyperparameter tuning
