@@ -69,10 +69,10 @@ y_test = y_test.reset_index(drop=True)
 # Data preparation
 cat_attribs = sp_df.columns[1:-1]
 cat_pipeline = make_pipeline(OneHotEncoder(handle_unknown="ignore"))
-preprocessing = ColumnTransformer([("cat", cat_pipeline, cat_attribs)])
+preprocessor = ColumnTransformer([("cat", cat_pipeline, cat_attribs)])
 
-X_train_tr = preprocessing.fit_transform(X_train)
-X_test_tr = preprocessing.transform(X_test)
+X_train_tr = preprocessor.fit_transform(X_train)
+X_test_tr = preprocessor.transform(X_test)
 
 experiment_name = 'higher-education-students-performance-evaluation'
 mlflow.set_tracking_uri('sqlite:///mlflow.db')
@@ -107,7 +107,7 @@ for model_name, model_class in zip(model_names, model_classifiers):
 
         model_file = f'models/{model_name}.bin'
         with open(model_file, 'wb') as f_out:
-            pickle.dump((preprocessing, model_class), f_out)
+            pickle.dump((preprocessor, model_class), f_out)
 
 
 # XGBoost Classifier with hyperparameter tuning
@@ -184,7 +184,7 @@ with mlflow.start_run():
     mlflow.log_metric("AUC", auc)
 
     with open(xgb_model_file, 'wb') as f_out:
-        pickle.dump(xgboost_clf, f_out)
+        pickle.dump((preprocessor, xgboost_clf), f_out)
 
     mlflow.log_artifact(xgb_model_file, artifact_path='best_models')
 
