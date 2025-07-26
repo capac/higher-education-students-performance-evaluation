@@ -37,8 +37,8 @@ work_dir = Path.home() / (
     )
 data_file = work_dir / 'data/students-performance.csv'
 attribute_names_json_file = work_dir / 'attribute_names.json'
-Path("models").mkdir(exist_ok=True)
-xgb_model_file = work_dir / 'models/xgb_cls.bin'
+preprocessor_file = work_dir / 'preprocessor.bin'
+best_model_file = work_dir / 'xgb_cls.bin'
 
 with open(attribute_names_json_file, 'rt') as f_in:
     attribute_names_json = json.load(f_in)
@@ -67,7 +67,7 @@ y_test = y_test.reset_index(drop=True)
 
 
 # Data preparation
-cat_attribs = sp_df.columns[1:-1]
+cat_attribs = X_train.columns
 cat_pipeline = make_pipeline(OneHotEncoder(handle_unknown="ignore"))
 preprocessor = ColumnTransformer([("cat", cat_pipeline, cat_attribs)])
 
@@ -105,9 +105,12 @@ for model_name, model_class in zip(model_names, model_classifiers):
         auc = roc_auc_score(y_test, y_pred, multi_class='ovo')
         mlflow.log_metric("AUC", auc)
 
-        model_file = f'models/{model_name}.bin'
-        with open(model_file, 'wb') as f_out:
-            pickle.dump((preprocessor, model_class), f_out)
+        with open(preprocessor_file, 'wb') as f_out:
+            pickle.dump(preprocessor, f_out)
+
+        # mlflow.sklearn.log_model(model_class, artifact_path='artifacts')
+
+        mlflow.log_artifact(preprocessor_file, artifact_path='artifacts')
 
 
 # XGBoost Classifier with hyperparameter tuning
@@ -183,9 +186,10 @@ with mlflow.start_run():
     auc = roc_auc_score(y_test, y_pred, multi_class='ovo')
     mlflow.log_metric("AUC", auc)
 
-    with open(xgb_model_file, 'wb') as f_out:
-        pickle.dump((preprocessor, xgboost_clf), f_out)
-
-    mlflow.log_artifact(xgb_model_file, artifact_path='best_models')
+    with open(best_model_file, 'wb') as f_out:
+        pickle.dump(xgboost_clf, f_out)
 
     mlflow.xgboost.log_model(xgboost_clf, artifact_path='artifacts')
+
+    mlflow.log_artifact(best_model_file, artifact_path='best_model')
+    mlflow.log_artifact(preprocessor_file, artifact_path='best_model')
