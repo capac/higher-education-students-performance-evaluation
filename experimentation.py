@@ -141,7 +141,8 @@ xgboost_search_space = {
     'reg_alpha': hp.loguniform('reg_alpha', -5, -1),
     'reg_lambda': hp.loguniform('reg_lambda', -6, -1),
     'min_child_weight': hp.loguniform('min_child_weight', -1, 3),
-    'objective': 'binary:logistic',
+    'objective': 'multi:softprob',
+    'num_class': y.value_counts().shape[0],
     'seed': 42
 }
 
@@ -160,9 +161,10 @@ xgboost_best_params = {
     'max_depth': 16,
     'min_child_weight': 0.4639113171017813,
     'n_estimators': 131,
-    'objective': 'binary:logistic',
     'reg_alpha': 0.007860242176975434,
     'reg_lambda': 0.02768073078548693,
+    'objective': 'multi:softprob',
+    'num_class': y.value_counts().shape[0],
     'seed': 42,
 }
 
