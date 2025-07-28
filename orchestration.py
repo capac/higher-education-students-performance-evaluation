@@ -107,8 +107,6 @@ def train_best_sklearn_model(
     """train Scikit-Learn models and save results to MLflow"""
 
     mlflow.sklearn.autolog()
-    model_names = ['rf_cls', 'gbc_cls', 'etc_cls', 'sgdc_cls',
-                   'svc_cls', 'dtc_cls', 'log_reg']
     model_classifiers = [RandomForestClassifier(),
                          GradientBoostingClassifier(),
                          ExtraTreesClassifier(),
@@ -117,7 +115,7 @@ def train_best_sklearn_model(
                          DecisionTreeClassifier(),
                          LogisticRegression()]
 
-    for model_name, model_class in zip(model_names, model_classifiers):
+    for model_class in model_classifiers:
         with mlflow.start_run():
             mlflow.set_tag('model', model_class.__class__.__name__)
 

@@ -83,8 +83,6 @@ mlflow.set_experiment(experiment_name)
 
 # Scikit-Learn Classifiers
 mlflow.sklearn.autolog()
-model_names = ['rf_cls', 'gbc_cls', 'etc_cls', 'sgdc_cls',
-               'svc_cls', 'dtc_cls', 'log_reg']
 model_classifiers = [
     RandomForestClassifier(),
     GradientBoostingClassifier(),
@@ -95,7 +93,7 @@ model_classifiers = [
     LogisticRegression()
     ]
 
-for model_name, model_class in zip(model_names, model_classifiers):
+for model_class in model_classifiers:
     with mlflow.start_run():
         mlflow.set_tag('model', model_class.__class__.__name__)
 
