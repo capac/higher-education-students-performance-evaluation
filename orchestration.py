@@ -171,7 +171,8 @@ def train_best_xgboost_model(
         'reg_alpha': hp.loguniform('reg_alpha', -5, -1),
         'reg_lambda': hp.loguniform('reg_lambda', -6, -1),
         'min_child_weight': hp.loguniform('min_child_weight', -1, 3),
-        'objective': 'binary:logistic',
+        'objective': 'multi:softprob',
+        'num_class': 8,  # hardcoded number of unique classes in target
         'seed': 42
         }
 
@@ -191,7 +192,8 @@ def train_best_xgboost_model(
         'reg_alpha': 0.007860242176975434,
         'reg_lambda': 0.02768073078548693,
         'min_child_weight': 0.4639113171017813,
-        'objective': 'binary:logistic',
+        'objective': 'multi:softprob',
+        'num_class': 8,  # hardcoded number of unique classes in target
         'seed': 42,
     }
 
@@ -253,7 +255,7 @@ def main_flow(
 
     # Train best XGBoost model
     train_best_xgboost_model(
-        X_train_tr, X_test_tr, y_train, y_test, preprocessor
+        X_train_tr, X_test_tr, y_train, y_test
         )
 
 

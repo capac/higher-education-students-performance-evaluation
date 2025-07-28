@@ -142,7 +142,7 @@ xgboost_search_space = {
     'reg_lambda': hp.loguniform('reg_lambda', -6, -1),
     'min_child_weight': hp.loguniform('min_child_weight', -1, 3),
     'objective': 'multi:softprob',
-    'num_class': y.value_counts().shape[0],
+    'num_class': 8,  # hardcoded number of unique classes in target
     'seed': 42
 }
 
@@ -164,7 +164,7 @@ xgboost_best_params = {
     'reg_alpha': 0.007860242176975434,
     'reg_lambda': 0.02768073078548693,
     'objective': 'multi:softprob',
-    'num_class': y.value_counts().shape[0],
+    'num_class': 8,  # hardcoded number of unique classes in target
     'seed': 42,
 }
 
