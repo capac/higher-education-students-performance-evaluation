@@ -140,7 +140,6 @@ def train_best_xgboost_model(
     X_test_tr: scipy.sparse.csr_matrix,
     y_train: np.ndarray,
     y_test: np.ndarray,
-    preprocessor: ColumnTransformer,
 ) -> None:
     """Train XGBoost models with best hyperparams and save results to MLflow"""
 
@@ -186,13 +185,13 @@ def train_best_xgboost_model(
 
     # Saving XGBoost model with best parameters
     xgboost_best_params = {
-        'learning_rate': 0.1822609570893024,
-        'max_depth': 16,
-        'min_child_weight': 0.4639113171017813,
         'n_estimators': 131,
-        'objective': 'binary:logistic',
+        'max_depth': 16,
+        'learning_rate': 0.1822609570893024,
         'reg_alpha': 0.007860242176975434,
         'reg_lambda': 0.02768073078548693,
+        'min_child_weight': 0.4639113171017813,
+        'objective': 'binary:logistic',
         'seed': 42,
     }
 
@@ -244,7 +243,7 @@ def main_flow(
     # Load data from file
     sp_df = read_data(data_file)
 
-    # Transform to traning and testing data
+    # Transform to training and testing data
     X_train_tr, X_test_tr, y_train, y_test, preprocessor = add_features(sp_df)
 
     # Train best Scikit-Learn models
