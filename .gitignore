@@ -213,7 +213,7 @@ __marimo__/
 *.csv
 
 # MLflow SQLite DB
-mlflow.db
+# mlflow.db
 
 # MLflow artifacts and mlruns folders
 artifacts/
