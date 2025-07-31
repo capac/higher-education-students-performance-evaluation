@@ -14,7 +14,7 @@ This is an outline of the work I've done in this project. More is to follow.
 
 ### MLflow
 
-* Local web service using Docker image
+<!-- * Local web service using Docker image -->
 * Local web service using MLflow
 
 ### Prefect
