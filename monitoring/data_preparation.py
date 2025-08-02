@@ -18,8 +18,8 @@ data_file = work_dir / 'data/students-performance.csv'
 attribute_names_json_file = work_dir / 'attribute_names.json'
 preprocessor_file = work_dir / 'preprocessor.bin'
 best_model_file = work_dir / 'xgb_cls.bin'
-production_data_file = work_dir / 'monitoring/data/production.parquet'
-reference_data_file = work_dir / 'monitoring/data/reference.parquet'
+production_data_file = work_dir / 'data/production.parquet'
+reference_data_file = work_dir / 'data/reference.parquet'
 
 
 # Loading attribute data set
@@ -44,7 +44,7 @@ y = sp_df['GRADE'].copy()
 # Split into training and testing data sets
 print('Split into training and testing data sets...')
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.3, stratify=y, random_state=33
+    X, y, test_size=0.5, random_state=33
     )
 
 X_train = X_train.reset_index(drop=True)
@@ -75,6 +75,9 @@ selected_columns = [
     "Weekly study hours", "Attendance to classes", "Taking notes in classes"
     ]
 
+
+# Saving training and testing predictions to data frames
+print('Saving training and testing predictions to dataframes...')
 prod_df = pd.DataFrame()
 prod_df[selected_columns] = X_train[selected_columns]
 prod_df['Output Grade'] = train_predictions
@@ -85,7 +88,7 @@ ref_df['Output Grade'] = test_predictions
 
 
 # Saving data frames as Parquet files
-print('Saving data frames as Parquet files...')
+print('Saving dataframes as Parquet files...')
 prod_df.to_parquet(production_data_file)
 ref_df.to_parquet(reference_data_file)
 print('Done!')
