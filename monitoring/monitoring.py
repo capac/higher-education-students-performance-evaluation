@@ -7,8 +7,12 @@ import pandas as pd
 from evidently import Dataset
 from evidently import DataDefinition
 from evidently import Report
-from evidently.metrics import ValueDrift
-from evidently.presets import DataDriftPreset, DataSummaryPreset
+from evidently.presets import (
+    DataDriftPreset, DataSummaryPreset
+    )
+from evidently.metrics import (
+    ValueDrift, DriftedColumnsCount, MissingValueCount
+    )
 
 
 # Working directory and data file paths
@@ -36,12 +40,12 @@ ref_df = pd.read_parquet(reference_data_file)
 # Evidently data setup
 schema = DataDefinition(categorical_columns=selected_columns)
 
-eval_data_1 = Dataset.from_pandas(
+prod_dataset = Dataset.from_pandas(
     pd.DataFrame(prod_df),
     data_definition=schema
     )
 
-eval_data_2 = Dataset.from_pandas(
+ref_dataset = Dataset.from_pandas(
     pd.DataFrame(ref_df),
     data_definition=schema
     )
@@ -52,10 +56,12 @@ report = Report(
     [DataDriftPreset(),
      ValueDrift(column='Output Grade'),
      DataSummaryPreset(),
+     DriftedColumnsCount(),
+     MissingValueCount(column='Output Grade'),
      ], include_tests='True')
 
 
-snapshot = report.run(current_data=eval_data_1, reference_data=eval_data_2)
+snapshot = report.run(current_data=prod_dataset, reference_data=ref_dataset)
 print('Saving data report to HTML file...')
-snapshot.save_html('data_report.html')
+snapshot.save_html(str(data_report_file))
 print('Done!')
