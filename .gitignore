@@ -212,6 +212,9 @@ __marimo__/
 # CSV files
 *.csv
 
+# Parquet files
+*.parquet
+
 # MLflow SQLite DB
 # mlflow.db
 
