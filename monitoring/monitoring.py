@@ -7,9 +7,6 @@ import pandas as pd
 from evidently import Dataset
 from evidently import DataDefinition
 from evidently import Report
-from evidently.presets import (
-    DataDriftPreset, DataSummaryPreset
-    )
 from evidently.metrics import (
     ValueDrift, DriftedColumnsCount, MissingValueCount
     )
@@ -53,15 +50,30 @@ ref_dataset = Dataset.from_pandas(
 # Evidently data drift, value drift and data summary presets
 print('Evidently data drift, value drift and data summary presets...')
 report = Report(
-    [DataDriftPreset(),
-     ValueDrift(column='Output Grade'),
-     DataSummaryPreset(),
+    [ValueDrift(column='Output Grade'),
      DriftedColumnsCount(),
      MissingValueCount(column='Output Grade'),
      ], include_tests='True')
 
 
 snapshot = report.run(current_data=prod_dataset, reference_data=ref_dataset)
+
+# Saving data report as HTML file
 print('Saving data report to HTML file...')
 snapshot.save_html(str(data_report_file))
+
+result = snapshot.dict()
+
+# Prediction drift
+prediction_drift = result['metrics'][0]['value']
+print(f'Prediction drift: {round(prediction_drift, 3)}')
+
+# Number of drifted columns
+number_drifted_columns = result['metrics'][1]['value']['count']
+print(f'Number of drifted columns: {round(number_drifted_columns, 3)}')
+
+# Share of missing values
+share_missing_values = result['metrics'][2]['value']['count']
+print(f'Share of missing values: {round(share_missing_values, 3)}')
+
 print('Done!')
