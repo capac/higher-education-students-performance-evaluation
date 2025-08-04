@@ -4,7 +4,7 @@
 
 ![](reading-room.jpg "reading-room.jpg")
 
-Photo by [Drahomír Hugo Posteby-Mach](ttps://unsplash.com/photos/three-round-white-wooden-tables-n4y3eiQSIoc "ttps://unsplash.com/photos/three-round-white-wooden-tables-n4y3eiQSIoc") on Unsplash.
+Photo by [Drahomír Hugo Posteby-Mach](https://unsplash.com/photos/three-round-white-wooden-tables-n4y3eiQSIoc "https://unsplash.com/photos/three-round-white-wooden-tables-n4y3eiQSIoc") on Unsplash.
 
 The purpose of this capstone project is to predict higher eduction students' end-of-term performances using machine learning operations techniques. The dataset includes 145 instances in 31 features. The first ten features of the data regard personal questions, features 11 to 16 regard family questions, and the remaining features are about education habits. The dataset doesn't contain missing values, and is completely made up of categorical values. The data was collected from the Faculty of Engineering and Faculty of Educational Sciences students in 2019. 
 
