@@ -1,4 +1,4 @@
-# MLflow web service
+# Deployment using MLflow
 
 You can test the code in this folder by creating an isolated environment with `pipenv`, using the `Pipfile` and `Pipfile.lock` files. Once the environment has been generated, launch MLflow with the following command:
 
