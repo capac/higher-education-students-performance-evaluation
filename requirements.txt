@@ -1,0 +1,12 @@
+xgboost
+matplotlib
+mlflow=2.22.0
+pandas
+prefect
+python=3.9
+scikit-learn=1.6.1
+jupyterlab
+pipenv
+evidently
+psycopg
+hyperopt
