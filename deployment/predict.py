@@ -5,7 +5,7 @@ from mlflow.tracking import MlflowClient
 from flask import Flask, request, jsonify
 
 # best XGBoost model run saved in MLflow
-RUN_ID = '3dae9c2c31884362bab834e1fa262d5c'
+RUN_ID = '654e9d9b4e034499a3cbc9cd18d45951'
 MLFLOW_TRACKING_URI = 'http://127.0.0.1:5000'
 
 mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
