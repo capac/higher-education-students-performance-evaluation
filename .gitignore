@@ -210,10 +210,10 @@ __marimo__/
 .streamlit/secrets.toml
 
 # CSV files
-*.csv
+# *.csv
 
 # Parquet files
-*.parquet
+# *.parquet
 
 # MLflow SQLite DB
 # mlflow.db
