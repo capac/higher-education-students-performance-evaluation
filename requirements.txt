@@ -1,8 +1,8 @@
-xgboost
+xgboost=2.1.4
 matplotlib
 mlflow=2.22.0
 pandas
-prefect
+prefect=3.4.11
 python=3.9
 scikit-learn=1.6.1
 jupyterlab
