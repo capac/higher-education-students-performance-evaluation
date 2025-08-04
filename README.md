@@ -92,3 +92,7 @@ In the `tests` folder there is a `predict-test.py` file that you can do unit tes
 #### Code quality using linting and formatting
 
 Added a `pyproject.toml` file to suppress several warnings, such as `missing-module-docstring`, `missing-function-docstring`, and `invalid-name`.
+
+#### Makefile
+
+Makefile for test (`pytest tests/`) and quality checks with `isort`, `black` and `pylint`.
