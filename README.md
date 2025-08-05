@@ -6,13 +6,14 @@
 
 Photo by [Drahomír Hugo Posteby-Mach](https://unsplash.com/photos/three-round-white-wooden-tables-n4y3eiQSIoc "https://unsplash.com/photos/three-round-white-wooden-tables-n4y3eiQSIoc") on Unsplash.
 
-The purpose of this capstone project is to predict higher eduction students' end-of-term performances using machine learning operations techniques. The dataset includes 145 instances in 31 features. The first ten features of the data regard personal questions, features 11 to 16 regard family questions, and the remaining features are about education habits. The dataset doesn't contain missing values, and is completely made up of categorical values. The data was collected from the Faculty of Engineering and Faculty of Educational Sciences students in 2019. 
+The purpose of this capstone project is to predict higher eduction students' end-of-term performances using machine learning operations techniques. The dataset employed in this MLOps Zoomcamp project is the [Higher Education Students Performance Evaluation dataset](https://archive.ics.uci.edu/dataset/856/higher+education+students+performance+evaluation "https://archive.ics.uci.edu/dataset/856/higher+education+students+performance+evaluation") from the UCI Machine Learning Repository. The paper derived from the dataset is [Student Performance Classification Using Artificial Intelligence Techniques](https://www.semanticscholar.org/paper/d2540a82aea0f5acef91c8b4f92295ff8f312404 "https://www.semanticscholar.org/paper/d2540a82aea0f5acef91c8b4f92295ff8f312404").
 
-The dataset employed in this MLOps Zoomcamp project is the [Higher Education Students Performance Evaluation dataset](https://archive.ics.uci.edu/dataset/856/higher+education+students+performance+evaluation "https://archive.ics.uci.edu/dataset/856/higher+education+students+performance+evaluation") from the UCI Machine Learning Repository. The paper derived from the dataset is [Student Performance Classification Using Artificial Intelligence Techniques](https://www.semanticscholar.org/paper/d2540a82aea0f5acef91c8b4f92295ff8f312404 "https://www.semanticscholar.org/paper/d2540a82aea0f5acef91c8b4f92295ff8f312404").
+The dataset includes 145 instances in 31 features. The first ten features of the data regard personal questions, features 11 to 16 regard family questions, and the remaining features are about education habits. The dataset doesn't contain missing values, and is entirely made of categorical values. The data was collected from the Faculty of Engineering and Faculty of Educational Sciences students in 2019. 
+
 
 ## Outline
 
-This is an outline of the work I've done in this capstone project. In order to reproduce the outcome of this project, clone this repository locally to your computer and create a Anaconda environment using the `environment.yml` file with the command `conda env create -f environment.yml`. This will create a Anaconda environment called `mlops-zoomcamp` where you will have the package versions I used. If not, you can use the `requirements.txt` file and install the packages using `pip install -r requirements.txt`.
+Here is an outline of the work I've done in this capstone project. In order to reproduce the outcome of this project, clone this repository locally to your computer and create a Anaconda environment using the `environment.yml` file with the command `conda env create -f environment.yml`. This will create an environment called `mlops-zoomcamp` where you will have the package versions I used. If not, you can use the `requirements.txt` file and install the packages using `pip install -r requirements.txt`.
 
 The data itself is saved in the `data` folder. It is made up of CSV and Parquet files. Moreover, the dataframe makes use of the `attribute_names.json` file for column naming.
 
@@ -26,14 +27,14 @@ The other plot in the folder shows the bar plot of the other categorical attribu
 
 ### Experiment tracking with MLflow
 
-In the `experiment-tracking` folder, I've implemented MLflow experiment tracking to generate the best model from the data set. I've experimented several Scikit-Learn models and one with XGBoost, and decided to settle with the XGBoost model since it returned the best AUC which is the metric I used to determine the best model. The experimentation search space is saved locally using MLflow.
+In the `experiment-tracking` folder, I've implemented MLflow experiment tracking to generate the best model from the data set. I've experimented several Scikit-Learn models and one with XGBoost, and decided to settle with the XGBoost model since it returned the best [area under the curve (AUC)](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve "https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve") which is the metric I used to determine the best model. The experimentation search space is saved locally using MLflow.
 
 In order to reproduce the experiment outcome, follow this sequence of commands:
 
 Once inside the `experiment-tracking` folder, open a terminal and run:
 * `mlflow ui --backend-store-uri sqlite:///mlflow.db --default-artifact-root artifacts`,
 
-You can open the MLflow UI in a browser with `http://127.0.0.1:5000` and see the experiments listed under `higher-education-students-performance-evaluation`.
+You can open the MLflow UI in a browser with http://127.0.0.1:5000 and see the experiments listed under `higher-education-students-performance-evaluation`.
 
 If you re-run the experimentation script used previously, you'll just add the same runs to MLflow. You can try this out yourself by opening another terminal in the same folder and running:
 * `python experimentation.py`.
@@ -60,7 +61,7 @@ I wanted to test the predictions of my model using a Flask app. You can find the
 In this project data pipelines were implemented using the latest version of Prefect, 3.4.11 at this time of this writing. In order to reproduce the workflow, go to the `orchestration` folder, open a terminal and run the following commands:
 * `prefect server start`
 
-In order for Prefect to communicate with the server, run the following setting in a separate terminal:
+The Prefect UI can be accessed locally at http://127.0.0.1:4200. In order for Prefect to communicate with the server, run the following configuration setting in a separate terminal:
 * `prefect config set PREFECT_APT_URL=http://127.0.0.1:4200/api`
 
 You may need to initialize a Prefect project, so run `prefect init` to initialize your deployment configuration with a recipe. Use arrows to move to choose the `git` option deployment.
