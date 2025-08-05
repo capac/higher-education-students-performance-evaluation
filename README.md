@@ -18,7 +18,7 @@ The data itself is saved in the `data` folder. It is made up of CSV and Parquet 
 
 ## Exploratory data analysis
 
-I've completed some exploratory data analysis to get a feel for the categorical data set. These results are saved in the `plots` floder, and have been generated with the `eda.py` script. Here I show the `Grade output` category bar plot.
+I've completed some exploratory data analysis to get a feel for the categorical data set. These results are saved in the `plots` folder, and have been generated with the `eda.py` script. Here I show the `Grade output` category bar plot.
 
 ![](plots/grade_barplot.png "plots/grade_barplot.png")
 
@@ -26,47 +26,44 @@ The other plot in the folder shows the bar plot of the other categorical attribu
 
 ### Experiment tracking with MLflow
 
-In the `experiment-tracking` folder, I've implemented MLflow experiment tracking to generate the best model from the data set. I've experimented several Scikit-Learn model and one with XGBoost, and decided to settle with the XGBoost model since it returned the best AUC which is the metric I used to determine the best model. The experimentation search space is saved locally using MLflow.
+In the `experiment-tracking` folder, I've implemented MLflow experiment tracking to generate the best model from the data set. I've experimented several Scikit-Learn models and one with XGBoost, and decided to settle with the XGBoost model since it returned the best AUC which is the metric I used to determine the best model. The experimentation search space is saved locally using MLflow.
 
 In order to reproduce the experiment outcome, follow this sequence of commands:
 
 Once inside the `experiment-tracking` folder, open a terminal and run:
 * `mlflow ui --backend-store-uri sqlite:///mlflow.db --default-artifact-root artifacts`,
 
-You can open the MLflow UI in abrowser with `http://127.0.0.1:5000` and see the experiments listed under `higher-education-students-performance-evaluation`.
+You can open the MLflow UI in a browser with `http://127.0.0.1:5000` and see the experiments listed under `higher-education-students-performance-evaluation`.
 
-If you re-run the experimentation script used previously, you'll just add the same runs to MLflow. You can try this out yourself by opening in the same folder another terminal and running:
+If you re-run the experimentation script used previously, you'll just add the same runs to MLflow. You can try this out yourself by opening another terminal in the same folder and running:
 * `python experimentation.py`.
 
 ### Deployment using MLflow
 
-You can test the code in this folder by creating an isolated environment with `pipenv`, using the `Pipfile` and `Pipfile.lock` files. Once the environment has been generated, run `pipenv shell` and launch MLflow with the following command:
+You can test the code in the `deployment` folder by creating an isolated environment with `pipenv`, using the `Pipfile` and `Pipfile.lock` files. Once the environment has been generated, run `pipenv shell` and launch MLflow UI with the following command:
 * `mlflow ui --backend-store-uri sqlite:///mlflow.db --default-artifact-root artifacts`
 
 At this point in the same Pipenv environment but in a separate terminal, you can run the following command to launch the Flask web service for making predictions:
 * `python predict.py`
 
-Finally in a third terminal and in the same Pipenv environment, run the last Python script to test the prediction web service, using new student test data contained in the test script:
+Finally in a third terminal and in the same Pipenv environment, run the last Python script to test the prediction web service, using new student test data contained in the test script itself:
 * `python test.py`
 
 #### Flask web service
 
 I wanted to test the predictions of my model using a Flask app. You can find the files for testing in the `deployment/flask-app` folder. Once you've set up a local environment by running `pipenv install` in the same folder with the `Pipfile` and `Pipfile.lock` files, and then running `pipenv shell`, run `python predict.py` in one terminal and `python test.py` in the other folder using the same Pipenv environment.
 
-**NOTICE (2025-08-04)** Still on my to-do list: Package MLflow and the prediction Flask app in a Docker container using `docker-compose` and then just test it with the Python test script.
+<!-- **NOTICE (2025-08-04)** Still on my to-do list: Package MLflow and the prediction Flask app in a Docker container using `docker-compose` and then just test it with the Python test script. -->
 
 ### Orchestration with Prefect
 
-In this project data pipelines were implemented using the latest version of Prefect, 3.4.11 at this time of this writing. In order to reproduce the workflow, open a terminal and run the following commands:
+In this project data pipelines were implemented using the latest version of Prefect, 3.4.11 at this time of this writing. In order to reproduce the workflow, go to the `orchestration` folder, open a terminal and run the following commands:
 * `prefect server start`
 
 In order for Prefect to communicate with the server, run the following setting in a separate terminal:
 * `prefect config set PREFECT_APT_URL=http://127.0.0.1:4200/api`
 
-You may need to initialize a Prefect project, so run 
-initialize your deployment configuration with a recipe. Use arrows to move, enter to select or n to select none, and then choose the type of deployment
-* `prefect init`
-and choose the `git` option deployment.
+You may need to initialize a Prefect project, so run `prefect init` to initialize your deployment configuration with a recipe. Use arrows to move to choose the `git` option deployment.
 
 For deployment in this case on a local server, you need to create a worker to poll from the work pool. In order activate the Prefect worker, run in the same terminal:
 * `prefect worker start --pool "hespe-pool"`
@@ -74,12 +71,14 @@ For deployment in this case on a local server, you need to create a worker to po
 Finally in a third terminal, to deploy the flow, run:
 * `prefect deploy orchestration.py:main_flow -n hespe-1 -p hespe-pool`
 
- You'll see the worker named `hespe-1` activate the `orchestration.py` flow automatically, and be able to observe the flow output in the Prefect UI. You can also run the deployment in the Prefect UI with the Quick run button. If you still have MLflow up and running in its original terminal tab, it'll get updated with new runs from the command run previously.
+ You'll see the worker named `hespe-1` activate the `orchestration.py` flow automatically, and you'll be able to observe the flow output in the Prefect UI. You can also run the deployment in the Prefect UI with the Quick run button. If you still have MLflow up and running in its original terminal tab, it'll get updated with new runs from the command run previously.
 
 
 ### Monitoring with Evidently
 
 I've implemented local monitoring using Evidently (version 0.7.11). The data for the monitoring is saved in the `monitoring` folder. I prepared two dataframe, one for production and one for reference, and compare the two using Evidently monitoring. The data preparation is made using the `data_preparation.py` script, while the monitoring with Evidently is taken care of with`monitoring.py` script. The outcome is saved in the `data_report.html` file, which can be easily viewed in any browser.
+
+<!-- **NOTICE (2025-08-04)** Still on my to-do list: Evidently dashboards. -->
 
 ### Best practices
 
