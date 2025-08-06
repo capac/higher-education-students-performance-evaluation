@@ -2,9 +2,15 @@
 
 ## Summary
 
-![](reading-room.jpg "reading-room.jpg")
+<!-- ![](reading-room.jpg "reading-room.jpg") -->
 
-Photo by [Drahomír Hugo Posteby-Mach](https://unsplash.com/photos/three-round-white-wooden-tables-n4y3eiQSIoc "https://unsplash.com/photos/three-round-white-wooden-tables-n4y3eiQSIoc") on Unsplash.
+<p align="center">
+    <img src="reading-room.jpg" alt="reading-room" width="800" style="center"/>
+</p>
+
+<p align="center">
+Photo by <a href="https://unsplash.com/photos/three-round-white-wooden-tables-n4y3eiQSIoc">Drahomír Hugo Posteby-Mach</a> on Unsplash.
+</p>
 
 The purpose of this capstone project is to predict higher eduction students' end-of-term performances using machine learning operations techniques. The dataset employed in this MLOps Zoomcamp project is the [Higher Education Students Performance Evaluation dataset](https://archive.ics.uci.edu/dataset/856/higher+education+students+performance+evaluation "https://archive.ics.uci.edu/dataset/856/higher+education+students+performance+evaluation") from the UCI Machine Learning Repository. The paper derived from the dataset is [Student Performance Classification Using Artificial Intelligence Techniques](https://www.semanticscholar.org/paper/d2540a82aea0f5acef91c8b4f92295ff8f312404 "https://www.semanticscholar.org/paper/d2540a82aea0f5acef91c8b4f92295ff8f312404").
 
@@ -21,7 +27,10 @@ The data itself is saved in the `data` folder. It is made up of CSV and Parquet 
 
 I've completed some exploratory data analysis to get a feel for the categorical data set. These results are saved in the `plots` folder, and have been generated with the `eda.py` script. Here I show the `Grade output` category bar plot.
 
-![](plots/grade_barplot.png "plots/grade_barplot.png")
+<!-- ![](plots/grade_barplot.png "plots/grade_barplot.png") -->
+<p align="center">
+    <img src="plots/grade_barplot.png" alt="grade_barplot" width="500" style="center"/>
+</p>
 
 The other plot in the folder shows the bar plot of the other categorical attributes.
 
