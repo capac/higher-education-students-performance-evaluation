@@ -126,3 +126,6 @@
 # with the python modules ``pickle``, ``dbm.*``,
 # ``shelve``, ``marshal``, ``anydbm``, & ``bsddb``
 # (among others).
+
+# Show Python instead of HTML
+*.html linguist-language=python
