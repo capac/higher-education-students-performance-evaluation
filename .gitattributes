@@ -128,4 +128,4 @@
 # (among others).
 
 # Show Python instead of HTML
-*.html linguist-language=python
+# *.html linguist-language=python
