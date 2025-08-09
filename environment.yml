@@ -5,16 +5,18 @@ channels:
   - https://repo.anaconda.com/pkgs/main
   - https://repo.anaconda.com/pkgs/r
 dependencies:
-  - xgboost=2.1.4
+  - xgboost
   - matplotlib
   - mlflow=2.22.0
   - pandas
-  - prefect=3.4.11
-  - python=3.9
-  - scikit-learn=1.6.1
+  - prefect
+  - python=3.9.23
+  - scikit-learn
   - jupyterlab
   - pipenv
-  - evidently
+  - evidently=0.6.7
   - psycopg
   - hyperopt
+  - pyarrow
+  - fastparquet
 prefix: /opt/miniconda3/envs/mlops-zoomcamp

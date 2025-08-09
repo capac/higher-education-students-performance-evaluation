@@ -2,11 +2,11 @@ xgboost=2.1.4
 matplotlib
 mlflow=2.22.0
 pandas
-prefect=3.4.11
-python=3.9
+prefect=3.4.12
+python=3.9.23
 scikit-learn=1.6.1
 jupyterlab
 pipenv
-evidently
+evidently==0.6.7
 psycopg
 hyperopt
