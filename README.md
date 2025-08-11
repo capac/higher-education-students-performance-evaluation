@@ -28,6 +28,7 @@ Here is an outline of the project folder with the work I've done for this capsto
 │   └── flask-app          # Local Flask deployment folder
 ├── experiment-tracking    # Folder for experiment tracking using MLflow
 │   └── artifacts          # MLflow artifacts folder for model registry
+├── models                 # Folder containing best model and preprocessor
 ├── monitoring             # Monitoring folder for Evidently
 │   └── config             # Configuration folder for Evidently
 ├── orchestration          # Prefect orchestration folder
