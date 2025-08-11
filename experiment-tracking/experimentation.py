@@ -2,8 +2,9 @@
 # coding: utf-8
 
 import json
-from pathlib import Path
 import pickle
+from pathlib import Path
+
 import pandas as pd
 
 from sklearn.pipeline import make_pipeline
@@ -28,6 +29,7 @@ import xgboost as xgb
 
 from hyperopt import fmin, tpe, hp, STATUS_OK, Trials
 from hyperopt.pyll import scope
+
 import mlflow
 
 
@@ -37,8 +39,8 @@ work_dir = Path.home() / (
     )
 data_file = work_dir / 'data/students-performance.csv'
 attribute_names_json_file = work_dir / 'attribute_names.json'
-preprocessor_file = work_dir / 'preprocessor.bin'
-best_model_file = work_dir / 'xgb_cls.bin'
+preprocessor_file = work_dir / 'models/preprocessor.bin'
+best_model_file = work_dir / 'models/xgb_cls.bin'
 
 with open(attribute_names_json_file, 'rt') as f_in:
     attribute_names_json = json.load(f_in)
@@ -105,8 +107,6 @@ for model_class in model_classifiers:
 
         with open(preprocessor_file, 'wb') as f_out:
             pickle.dump(preprocessor, f_out)
-
-        # mlflow.sklearn.log_model(model_class, artifact_path='artifacts')
 
         mlflow.log_artifact(preprocessor_file, artifact_path='artifacts')
 
