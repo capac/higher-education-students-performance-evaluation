@@ -35,15 +35,18 @@ Here is an outline of the project folder with the work I've done for this capsto
 ```
 
 
-In order to reproduce the outcome of this project, clone this repository locally to your computer and create a Anaconda environment using the `environment.yml` file with the command `conda env create -f environment.yml`. This will create an environment called `mlops-zoomcamp` where you will have the package versions I used. If not, you can use the `requirements.txt` file and install the packages using `pip install -r requirements.txt`.
+In order to reproduce the outcome of this project, clone this repository locally to your computer and create a Anaconda environment using the `environment.yml` file with the command 
 
-The data itself is saved in the `data` folder. It is made up of CSV and Parquet files. Moreover, the dataframe makes use of the `attribute_names.json` file for column naming.
+```bash
+conda env create -f environment.yml
+```
+
+This will create an environment called `mlops-zoomcamp` where you will have the package versions I used. If not, you can use the `requirements.txt` file and install the packages using `pip install -r requirements.txt`. The data itself is saved in the `data` folder. It is made up of CSV and Parquet files. Moreover, the dataframe makes use of the `attribute_names.json` file for column naming.
 
 ## Exploratory data analysis
 
 I've completed some exploratory data analysis to get a feel for the categorical data set. These results are saved in the `plots` folder, and have been generated with the `eda.py` script. Here I show the `Grade output` category bar plot.
 
-<!-- ![](plots/grade_barplot.png "plots/grade_barplot.png") -->
 <p align="center">
     <img src="plots/grade_barplot.png" alt="grade_barplot" width="500" style="center"/>
 </p>
@@ -54,21 +57,36 @@ The other plot in the folder shows the bar plot of the other categorical attribu
 
 In the `experiment-tracking` folder, I've implemented MLflow experiment tracking to generate the best model from the data set. I've experimented several Scikit-Learn models and one with XGBoost, and decided to settle with the XGBoost model since it returned the best [area under the curve (AUC)](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve "https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve") which is the metric I used to determine the best model. The experimentation search space is saved locally using MLflow.
 
-In order to reproduce the experiment outcome, follow this sequence of commands:
-
-Once inside the `experiment-tracking` folder, open a terminal and run:
+In order to reproduce the experiment outcome, follow this sequence of commands. Inside the `experiment-tracking` folder, open a terminal and run:
 
 ```bash
 mlflow ui --backend-store-uri sqlite:///mlflow.db --default-artifact-root artifacts
 ```
 
-You can open the MLflow UI in a browser with http://127.0.0.1:5000 and see the experiments listed under `higher-education-students-performance-evaluation`.
+You can open the MLflow UI in a browser with [http://127.0.0.1:5000](http://127.0.0.1:5000) and see the experiments listed under `higher-education-students-performance-evaluation`.
 
-If you re-run the experimentation script used previously, you'll just add the same runs to MLflow. You can try this out yourself by opening another terminal in the same folder and running:
+<p align="center">
+    <img src="model-experimentation.png" alt="model-experimentation" width="500" style="center"/>
+</p>
+
+<p align="center">
+Here is a sample of some of the model experiments saved in MLflow.
+</p>
+
+ If you re-run the experimentation script used previously, you'll just add the same runs to MLflow. You can try this out yourself by opening another terminal in the same folder and running:
 
 ```bash
 python experimentation.py
 ```
+
+<p align="center">
+    <img src="model-registry.png" alt="model-registry" width="500" style="center"/>
+</p>
+
+<p align="center">
+Here are two models saved in the MLflow registry, one to production and the another to staging.
+</p>
+
 
 ### Deployment using MLflow
 
