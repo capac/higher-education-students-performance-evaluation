@@ -91,19 +91,14 @@ Here are two models saved in the MLflow registry, one to production and the anot
 
 ### Deployment using MLflow
 
-You can test the code in the `deployment` folder by creating an isolated environment with `pipenv`, using the `Pipfile` and `Pipfile.lock` files. Once the environment has been generated, run `pipenv shell` and launch MLflow UI with the following command:
-
-```bash
-mlflow ui --backend-store-uri sqlite:///mlflow.db --default-artifact-root artifacts
-```
-
-At this point in the same Pipenv environment but in a separate terminal, you can run the following command to launch the Flask web service for making predictions:
+You can test the code in the `deployment` folder by creating an isolated environment with `pipenv`, using the `Pipfile` and `Pipfile.lock` files. Once the environment has been generated, run `pipenv shell` and run the following command to launch the Flask web service for making predictions:
 
 ```bash
 python predict.py
 ```
+This script doesn't require a running instance of the MLflow server, but simply retrieves the registered model from the registry.
 
-Finally in a third terminal and in the same Pipenv environment, run the last Python script to test the prediction web service, using new student test data contained in the test script itself:
+In a second terminal and in the same Pipenv environment, run the `test.py` Python script to test the prediction web service, using new student test data contained in the test script itself:
 
 ```bash
 python test.py
