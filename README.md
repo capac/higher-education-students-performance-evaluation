@@ -1,4 +1,6 @@
-# Higher Education Students Performance Evaluation - MLOps Zoomcamp Capstone Project
+# Higher Education Students Performance Evaluation
+
+This is my capstone project for the [Machine Learning Operations Zoomcamp](https://datatalks.club/blog/mlops-zoomcamp.html "https://datatalks.club/blog/mlops-zoomcamp.html"), which is a free, online course offered by [DataTalks.Club](https://datatalks.club/ "https://datatalks.club/").
 
 ## Summary
 
@@ -20,19 +22,20 @@ The dataset includes 145 instances in 31 features. The first ten features of the
 Here is an outline of the project folder with the work I've done for this capstone project.
 
 ```bash
-├── best-practices         # Reports and logs for code quality checks
+├── best-practices         # Reports & logs for code quality checks
 │   └── tests              # Software test files
 ├── data                   # CSV and Parquet data files
-├── deployment             # Folder for model deploying using MLflow registry and Flask
+├── deployment             # Folder for model deploying with MLflow registry & Flask
 │   ├── artifacts          # MLflow artifacts folder for model registry
 │   └── flask-app          # Local Flask deployment folder
-├── experiment-tracking    # Folder for experiment tracking using MLflow
+├── experiment-tracking    # Folder for experiment tracking with MLflow
 │   └── artifacts          # MLflow artifacts folder for model registry
-├── models                 # Folder containing best model and preprocessor
+├── models                 # Folder containing best model & preprocessor
 ├── monitoring             # Monitoring folder for Evidently
 │   └── config             # Configuration folder for Evidently
 ├── orchestration          # Prefect orchestration folder
-└── plots                  # Exploratory data analysis plots folder
+├── plots                  # Exploratory data analysis plots folder
+└── screen-shots            # Folder for screen shots of MLflow, Prefect, Evidently and Grafana
 ```
 
 
@@ -54,6 +57,7 @@ I've completed some exploratory data analysis to get a feel for the categorical 
 
 The other plot in the folder shows the bar plot of the other categorical attributes.
 
+
 ### Experiment tracking with MLflow
 
 In the `experiment-tracking` folder, I've implemented MLflow experiment tracking to generate the best model from the data set. I've experimented several Scikit-Learn models and one with XGBoost, and decided to settle with the XGBoost model since it returned the best [area under the curve (AUC)](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve "https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve") which is the metric I used to determine the best model. The experimentation search space is saved locally using MLflow.
@@ -67,7 +71,7 @@ mlflow ui --backend-store-uri sqlite:///mlflow.db --default-artifact-root artifa
 You can open the MLflow UI in a browser with [http://127.0.0.1:5000](http://127.0.0.1:5000) and see the experiments listed under `higher-education-students-performance-evaluation`.
 
 <p align="center">
-    <img src="model-experimentation.png" alt="model-experimentation" width="500" style="center"/>
+    <img src="screen-shots/model-experimentation.png" alt="model-experimentation" width="500" style="center"/>
 </p>
 
 <p align="center">
@@ -81,13 +85,12 @@ python experimentation.py
 ```
 
 <p align="center">
-    <img src="model-registry.png" alt="model-registry" width="500" style="center"/>
+    <img src="screen-shots/model-registry.png" alt="model-registry" width="500" style="center"/>
 </p>
 
 <p align="center">
 Here are two models saved in the MLflow registry, one to production and the another to staging.
 </p>
-
 
 ### Deployment using MLflow
 
@@ -108,7 +111,6 @@ python test.py
 
 I wanted to test the predictions of my model using a Flask app. You can find the files for testing in the `deployment/flask-app` folder. Once you've set up a local environment by running `pipenv install` in the same folder with the `Pipfile` and `Pipfile.lock` files, and then running `pipenv shell`, run `python predict.py` in one terminal and `python test.py` in the other folder using the same Pipenv environment.
 
-<!-- **NOTICE (2025-08-04)** Still on my to-do list: Package MLflow and the prediction Flask app in a Docker container using `docker-compose` and then just test it with the Python test script. -->
 
 ### Orchestration with Prefect
 
@@ -124,26 +126,51 @@ The Prefect UI can be accessed locally at http://127.0.0.1:4200. In order for Pr
 prefect config set PREFECT_APT_URL=http://127.0.0.1:4200/api
 ```
 
-You may need to initialize a Prefect project, so run `prefect init` to initialize your deployment configuration with a recipe. Use arrows to move to choose the `git` option deployment.
+You may need to initialize a Prefect project, so run `prefect init` to initialize your deployment configuration with a pre-defined recipe. Use arrows to move to choose the `git` option deployment, which is what I chose.
 
-For deployment in this case on a local server, you need to create a worker to poll from the work pool. In order activate the Prefect worker, run in the same terminal:
+For deployment on a local server, you need to create a Prefect worker to poll from the work pool. In order activate the Prefect worker, run in the same terminal:
 
 ```bash
 prefect worker start --pool "hespe-pool"
 ```
 
-Finally in a third terminal, to deploy the flow, run:
+This will output a message of a running worker with its ID. In my case I had:
+```
+Discovered type 'process' for work pool 'hespe-pool'.
+Worker 'ProcessWorker ddd94b59-d586-46c0-a31c-77d040b3fef7' started!
+```
+
+<p align="center">
+    <img src="screen-shots/prefect-runs.png" alt="prefect-runs" width="500" style="center"/>
+</p>
+
+<p align="center">
+Here are some runs I've generated in the past 30 days and saved in the Prefect Runs tab.
+</p>
+
+ Finally in a third terminal to deploy the flow, run:
 
 ```bash
 prefect deploy orchestration.py:main_flow -n hespe-1 -p hespe-pool
 ```
 
-You'll see the worker named `hespe-1` activate the `orchestration.py` flow automatically, and you'll be able to observe the flow output in the Prefect UI. You can also run the deployment in the Prefect UI with the Quick run button. If you still have MLflow up and running in its original terminal tab, it'll get updated with new runs from the command run previously.
+You'll see the worker named `hespe-1` activate the `orchestration.py` flow automatically, and you'll be able to observe the flow output in the Prefect UI.
+
+<p align="center">
+    <img src="screen-shots/prefect-work-pool.png" alt="prefect-work-pool" width="500" style="center"/>
+</p>
+
+<p align="center">
+Here are deployments saved over the past 30 days and saved in the Prefect work pool.
+</p>
+
+ You can also run the deployment in the Prefect UI with the Quick run button. If you still have MLflow up and running in its original terminal tab, it'll get updated with new runs from the command run previously.
+
 
 
 ### Monitoring with Evidently
 
-I've implemented local monitoring using Evidently (version 0.7.11). The data for the monitoring is saved in the `monitoring` folder. I prepared two dataframe, one for production and one for reference, and compare the two using Evidently monitoring. The data preparation is made using the `data_preparation.py` script, while the monitoring with Evidently is taken care of with`monitoring.py` script. The outcome is saved in the `data_report.html` file, which can be easily viewed in any browser.
+I've implemented local monitoring using Evidently (version 0.6.7). The data for the monitoring is saved in the `monitoring` folder. I prepared two dataframe, one for production and one for reference, and compare the two using Evidently monitoring. The data preparation is made using the `data_preparation.py` script, while the monitoring with Evidently is taken care of with`monitoring.py` script. The outcome is saved in the `data_report.html` file, which can be easily viewed in any browser.
 
 <!-- **NOTICE (2025-08-04)** Still on my to-do list: Evidently dashboards. -->
 
