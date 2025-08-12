@@ -4,12 +4,11 @@
 from pathlib import Path
 import pandas as pd
 
-from evidently import Dataset
-from evidently import DataDefinition
-from evidently import Report
-from evidently.metrics import (
-    ValueDrift, DriftedColumnsCount, MissingValueCount
-    )
+from evidently.test_suite import TestSuite
+from evidently.test_preset import DataStabilityTestPreset
+
+from evidently.report import Report
+from evidently.metric_preset import DataDriftPreset
 
 
 # Working directory and data file paths
@@ -33,47 +32,40 @@ selected_columns = [
 prod_df = pd.read_parquet(production_data_file)
 ref_df = pd.read_parquet(reference_data_file)
 
-
-# Evidently data setup
-schema = DataDefinition(categorical_columns=selected_columns)
-
-prod_dataset = Dataset.from_pandas(
-    pd.DataFrame(prod_df),
-    data_definition=schema
-    )
-
-ref_dataset = Dataset.from_pandas(
-    pd.DataFrame(ref_df),
-    data_definition=schema
+# Split the data into two batches. Run a set of pre-built data quality
+# tests to evaluate the quality of the current_data:
+data_stability = TestSuite(tests=[
+    DataStabilityTestPreset(),
+])
+data_stability.run(
+    current_data=prod_df, reference_data=ref_df, column_mapping=None
     )
 
 # Evidently data drift, value drift and data summary presets
-print('Evidently data drift, value drift and data summary presets...')
-report = Report(
-    [ValueDrift(column='Output Grade'),
-     DriftedColumnsCount(),
-     MissingValueCount(column='Output Grade'),
-     ], include_tests='True')
+print('Evidently data drift report...')
 
+data_drift_report = Report(metrics=[
+    DataDriftPreset(),
+])
 
-snapshot = report.run(current_data=prod_dataset, reference_data=ref_dataset)
+data_drift_report.run(
+    current_data=prod_df, reference_data=ref_df, column_mapping=None
+    )
 
-# Saving data report as HTML file
-print('Saving data report to HTML file...')
-snapshot.save_html(str(data_report_file))
+# Saving data report to HTML file
+print('\nSaving data report to HTML file...')
+data_drift_report.save_html(str(data_report_file))
 
-result = snapshot.dict()
+result = data_drift_report.as_dict()
 
-# Prediction drift
-prediction_drift = result['metrics'][0]['value']
-print(f'Prediction drift: {round(prediction_drift, 3)}')
+print('\nPrediction drift...')
+for column in selected_columns:
+    drift_by_columns = result['metrics'][1]['result']['drift_by_columns']
+    drift_score = drift_by_columns[column]['drift_score']
+    print(f'{column}: {round(drift_score, 6)}')
 
-# Number of drifted columns
-number_drifted_columns = result['metrics'][1]['value']['count']
-print(f'Number of drifted columns: {round(number_drifted_columns, 3)}')
+# Share of drifted columns
+share_of_drift = result['metrics'][1]['result']['share_of_drifted_columns']
+print(f'\nShare of drifted columns: {round(share_of_drift, 6)}')
 
-# Share of missing values
-share_missing_values = result['metrics'][2]['value']['count']
-print(f'Share of missing values: {round(share_missing_values, 3)}')
-
-print('Done!')
+print('\nDone!')
