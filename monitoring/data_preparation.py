@@ -16,8 +16,8 @@ work_dir = Path.home() / (
     )
 data_file = work_dir / 'data/students-performance.csv'
 attribute_names_json_file = work_dir / 'attribute_names.json'
-preprocessor_file = work_dir / 'preprocessor.bin'
-best_model_file = work_dir / 'xgb_cls.bin'
+preprocessor_file = work_dir / 'models/preprocessor.bin'
+best_model_file = work_dir / 'models/xgb_cls.bin'
 production_data_file = work_dir / 'data/production.parquet'
 reference_data_file = work_dir / 'data/reference.parquet'
 
