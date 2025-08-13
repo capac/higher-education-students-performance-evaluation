@@ -18,7 +18,8 @@ work_dir = Path.home() / (
     )
 production_data_file = work_dir / 'data/production.parquet'
 reference_data_file = work_dir / 'data/reference.parquet'
-data_report_file = work_dir / 'monitoring/data_report.html'
+data_report_file = work_dir / 'monitoring/data_drift_report.html'
+data_stability_report_file = work_dir / 'monitoring/data_stability_report.html'
 
 
 # Selected columns for training and testing dataframes
@@ -29,11 +30,14 @@ selected_columns = [
     "Attendance to classes", "Taking notes in classes",
     "Output Grade"]
 
-prod_df = pd.read_parquet(production_data_file)
-ref_df = pd.read_parquet(reference_data_file)
 
 # Split the data into two batches. Run a set of pre-built data quality
 # tests to evaluate the quality of the current_data:
+prod_df = pd.read_parquet(production_data_file)
+ref_df = pd.read_parquet(reference_data_file)
+
+# Evidently data stability report
+print('Evidently data stability report...')
 data_stability = TestSuite(tests=[
     DataStabilityTestPreset(),
 ])
@@ -41,7 +45,13 @@ data_stability.run(
     current_data=prod_df, reference_data=ref_df, column_mapping=None
     )
 
-# Evidently data drift, value drift and data summary presets
+
+# Saved data stability results to HTML
+print('Saving data stability report to HTML file...\n')
+data_stability.save_html(str(data_stability_report_file))
+
+
+# Evidently data drift report
 print('Evidently data drift report...')
 
 data_drift_report = Report(metrics=[
@@ -52,13 +62,15 @@ data_drift_report.run(
     current_data=prod_df, reference_data=ref_df, column_mapping=None
     )
 
-# Saving data report to HTML file
-print('\nSaving data report to HTML file...')
+
+# Saving data drift report to HTML file
+print('Saving data drift report to HTML file...\n')
 data_drift_report.save_html(str(data_report_file))
 
 result = data_drift_report.as_dict()
 
-print('\nPrediction drift...')
+# Data drift by column
+print('Prediction drift...')
 for column in selected_columns:
     drift_by_columns = result['metrics'][1]['result']['drift_by_columns']
     drift_score = drift_by_columns[column]['drift_score']
