@@ -3,8 +3,6 @@ import logging
 import pandas as pd
 import psycopg
 
-# from prefect import task, flow
-
 from evidently.report import Report
 from evidently import ColumnMapping
 from evidently.metrics import (
@@ -55,6 +53,7 @@ cat_features = [
     "Attendance to classes", "Taking notes in classes"
     ]
 
+# Column mapping to categorical features
 column_mapping = ColumnMapping(
     prediction='Output Grade',
     categorical_features=cat_features,
@@ -68,7 +67,7 @@ report = Report(metrics=[
 ])
 
 
-# @task
+# Database generation
 def prep_db():
     with psycopg.connect(CONNECTION_STRING, autocommit=True) as conn:
         res = conn.execute(
@@ -80,7 +79,7 @@ def prep_db():
             conn.execute(create_table_statement)
 
 
-# @task
+# Defining Evidently metrics to database
 def calculate_metrics_postgresql(curr):
     report.run(
         reference_data=ref_df, current_data=prod_df,
@@ -88,7 +87,6 @@ def calculate_metrics_postgresql(curr):
         )
 
     result = report.as_dict()
-
     prediction_drift = result['metrics'][0]['result']['drift_score']
     num_drifted_columns = (
         result['metrics'][1]['result']['number_of_drifted_columns']
@@ -104,17 +102,15 @@ def calculate_metrics_postgresql(curr):
         )
 
 
-# @flow
-def batch_monitoring_backfill():
+# Executing Evidently metrics to database
+def batch_monitoring():
     prep_db()
 
     with psycopg.connect(CONNECTION_STRING_DB, autocommit=True) as conn:
-
         with conn.cursor() as curr:
             calculate_metrics_postgresql(curr)
-
             logging.info("Data sent")
 
 
 if __name__ == '__main__':
-    batch_monitoring_backfill()
+    batch_monitoring()
