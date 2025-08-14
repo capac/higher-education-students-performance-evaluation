@@ -35,7 +35,7 @@ Here is an outline of the project folder with the work I've done for this capsto
 │   └── config             # Configuration folder for Evidently
 ├── orchestration          # Prefect orchestration folder
 ├── plots                  # Exploratory data analysis plots folder
-└── screen-shots            # Folder for screen shots of MLflow, Prefect, Evidently and Grafana
+└── screenshots            # Folder for screen shots of MLflow, Prefect, Evidently and Grafana
 ```
 
 
@@ -71,7 +71,7 @@ mlflow ui --backend-store-uri sqlite:///mlflow.db --default-artifact-root artifa
 You can open the MLflow UI in a browser with [http://127.0.0.1:5000](http://127.0.0.1:5000) and see the experiments listed under `higher-education-students-performance-evaluation`.
 
 <p align="center">
-    <img src="screen-shots/model-experimentation.png" alt="model-experimentation" width="500" style="center"/>
+    <img src="screenshots/model-experimentation.png" alt="model-experimentation" width="500" style="center"/>
 </p>
 
 <p align="center">
@@ -85,7 +85,7 @@ python experimentation.py
 ```
 
 <p align="center">
-    <img src="screen-shots/model-registry.png" alt="model-registry" width="500" style="center"/>
+    <img src="screenshots/model-registry.png" alt="model-registry" width="500" style="center"/>
 </p>
 
 <p align="center">
@@ -141,7 +141,7 @@ Worker 'ProcessWorker ddd94b59-d586-46c0-a31c-77d040b3fef7' started!
 ```
 
 <p align="center">
-    <img src="screen-shots/prefect-runs.png" alt="prefect-runs" width="500" style="center"/>
+    <img src="screenshots/prefect-runs.png" alt="prefect-runs" width="500" style="center"/>
 </p>
 
 <p align="center">
@@ -157,7 +157,7 @@ prefect deploy orchestration.py:main_flow -n hespe-1 -p hespe-pool
 You'll see the worker named `hespe-1` activate the `orchestration.py` flow automatically, and you'll be able to observe the flow output in the Prefect UI.
 
 <p align="center">
-    <img src="screen-shots/prefect-work-pool.png" alt="prefect-work-pool" width="500" style="center"/>
+    <img src="screenshots/prefect-work-pool.png" alt="prefect-work-pool" width="500" style="center"/>
 </p>
 
 <p align="center">
@@ -170,9 +170,45 @@ Here are deployments saved over the past 30 days and saved in the Prefect work p
 
 ### Monitoring with Evidently
 
-I've implemented local monitoring using Evidently (version 0.6.7). The data for the monitoring is saved in the `monitoring` folder. I prepared two dataframe, one for production and one for reference, and compare the two using Evidently monitoring. The data preparation is made using the `data_preparation.py` script, while the monitoring with Evidently is taken care of with`monitoring.py` script. The outcome is saved in the `data_report.html` file, which can be easily viewed in any browser.
+I've implemented local monitoring using Evidently (version 0.6.7). The data for the monitoring is saved in the `monitoring` folder. I prepared two dataframes, one for production and one for reference, and compared the two using Evidently. The data preparation is made with `data_preparation.py` script, while the monitoring is taken care of with`data_report.py` script. The output is saved in the `data_drift_report.html` and `data_stability_report.html` files, which can be easily viewed in any browser.
 
-<!-- **NOTICE (2025-08-04)** Still on my to-do list: Evidently dashboards. -->
+<p align="center">
+    <img src="screenshots/evidently-data-summary.png" alt="model-registry" width="500" style="center"/>
+</p>
+
+<p align="center">
+A sample with the first four entries of the data drift summary in Evidently.
+</p>
+
+As for Evidently monitoring, this is taken care of with the `monitoring.py` script. In order to save the data results and view then in a dashboard in Evidently, with the terminal in the `monitoring` folder, launch Docker with the command:
+
+```bash
+docker-compose up --build -d
+```
+Since the detached-state `-d` flag is used, in the same terminal you can run the script:
+
+```bash
+python monitoring.py
+```
+
+<p align="center">
+    <img src="screenshots/adminer.png" alt="model-registry" width="500" style="center"/>
+</p>
+
+<p align="center">
+The single entry for prediction drift, number of drifted columns and share of missing values in Adminer.
+</p>
+
+The data is saved to Adminer and can be viewed in a dashboard in Grafana as a data table.
+
+<p align="center">
+    <img src="screenshots/grafana.png" alt="model-registry" width="500" style="center"/>
+</p>
+
+<p align="center">
+Here is the table of the prediction drift, number of drifted columns and share of missing values in Grafana.
+</p>
+
 
 ### Best practices
 
