@@ -8,10 +8,10 @@ datasources:
     type: postgres
     access: proxy
     url: db:5432
-    database: test
+    database: student_db
     user: postgres
     secureJsonData:
       password: 'example'
     jsonData:
       sslmode: 'disable'
-      database: test
+      database: student_db
