@@ -9,7 +9,7 @@ dependencies:
   - matplotlib
   - mlflow=2.22.0
   - pandas
-  - prefect=3.4.12
+  - prefect=3.4.13
   - python=3.9.23
   - scikit-learn=1.6.1
   - jupyterlab
