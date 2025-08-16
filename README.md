@@ -120,7 +120,7 @@ In this project data pipelines were implemented using the latest version of Pref
 prefect server start
 ```
 
-The Prefect UI can be accessed locally at http://127.0.0.1:4200. In order for Prefect to communicate with the server, run the following configuration setting in a separate terminal:
+The Prefect UI can be accessed locally at [http://127.0.0.1:4200](http://127.0.0.1:4200). In order for Prefect to communicate with the server, run the following configuration setting in a separate terminal:
 
 ```bash
 prefect config set PREFECT_APT_URL=http://127.0.0.1:4200/api
@@ -148,13 +148,22 @@ Worker 'ProcessWorker ddd94b59-d586-46c0-a31c-77d040b3fef7' started!
 Here are some runs I've generated in the past 30 days and saved in the Prefect Runs tab.
 </p>
 
- Finally in a third terminal to deploy the flow, run:
+
+<p align="center">
+    <img src="screenshots/prefect-flow.png" alt="prefect-flow" width="500" style="center"/>
+</p>
+
+<p align="center">
+Here are the data preparation and model generation tasks of a run, as shown in Prefect.
+</p>
+
+The Prefect run in the image above shows the `read_data`, `add_features`, `train_best_xgboost_model` and `train_best_sklearn_model` tasks. Finally in a third terminal to deploy the flow, run:
 
 ```bash
 prefect deploy orchestration.py:main_flow -n hespe-1 -p hespe-pool
 ```
 
-You'll see the worker named `hespe-1` activate the `orchestration.py` flow automatically, and you'll be able to observe the flow output in the Prefect UI.
+You'll see the `hespe-1` pool activate the `orchestration.py` flow automatically, and you'll be able to observe the task and flow outputs in the Prefect UI.
 
 <p align="center">
     <img src="screenshots/prefect-work-pool.png" alt="prefect-work-pool" width="500" style="center"/>
@@ -164,23 +173,23 @@ You'll see the worker named `hespe-1` activate the `orchestration.py` flow autom
 Here are deployments saved over the past 30 days and saved in the Prefect work pool.
 </p>
 
- You can also run the deployment in the Prefect UI with the Quick run button. If you still have MLflow up and running in its original terminal tab, it'll get updated with new runs from the command run previously.
+You can also run the deployment in the Prefect UI with the Quick run button. If you still have MLflow up and running in its original terminal tab, it'll get updated with new runs from the command run previously.
 
 
 
 ### Monitoring with Evidently
 
-I've implemented local monitoring using Evidently (version 0.6.7). The data for the monitoring is saved in the `monitoring` folder. I prepared two dataframes, one for production and one for reference, and compared the two using Evidently. The data preparation is made with `data_preparation.py` script, while the monitoring is taken care of with`data_report.py` script. The output is saved in the `data_drift_report.html` and `data_stability_report.html` files, which can be easily viewed in any browser.
+I've implemented local monitoring using Evidently (version 0.6.7). The data for the monitoring is saved in the `monitoring` folder. I prepared two dataframes, one for the production dataset and one for the reference dataset, and compared the two using Evidently. The data preparation is made with `data_preparation.py` script, while the monitoring is taken care of with`data_report.py` script. The output from `data_report.py` is saved in the `data_drift_report.html` and `data_stability_report.html` files, which can be easily viewed in any browser.
 
 <p align="center">
-    <img src="screenshots/evidently-data-summary.png" alt="model-registry" width="500" style="center"/>
+    <img src="screenshots/evidently-data-summary.png" alt="evidently-data-summary" width="500" style="center"/>
 </p>
 
 <p align="center">
-A sample with the first four entries of the data drift summary in Evidently.
+The first four entries of the data drift summary in Evidently.
 </p>
 
-As for Evidently monitoring, this is taken care of with the `monitoring.py` script. In order to save the data results and view then in a dashboard in Evidently, with the terminal in the `monitoring` folder, launch Docker with the command:
+As for Evidently monitoring, this is taken care of with the `monitoring.py` script. In order to save the data results and view then in a dashboard in Grafana, with the terminal in the `monitoring` folder, launch Docker with the command:
 
 ```bash
 docker-compose up --build -d
@@ -192,17 +201,17 @@ python monitoring.py
 ```
 
 <p align="center">
-    <img src="screenshots/adminer.png" alt="model-registry" width="500" style="center"/>
+    <img src="screenshots/adminer.png" alt="adminer" width="500" style="center"/>
 </p>
 
 <p align="center">
 The single entry for prediction drift, number of drifted columns and share of missing values in Adminer.
 </p>
 
-The data is saved to Adminer and can be viewed in a dashboard in Grafana as a data table.
+Make sure to run the monitoring script before viewing the data in Adminer or Grafana, which you can access in your browser at [http://localhost:8080](http://localhost:8080) and [http://localhost:3000](http://localhost:3000) respectively, because prior to running the script there is no database, table and data in Adminer. The data can be viewed in a dashboard in Grafana as a data table.
 
 <p align="center">
-    <img src="screenshots/grafana.png" alt="model-registry" width="500" style="center"/>
+    <img src="screenshots/grafana_dashboard.png" alt="grafana_dashboard" width="500" style="center"/>
 </p>
 
 <p align="center">
