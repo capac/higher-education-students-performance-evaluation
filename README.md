@@ -2,8 +2,6 @@
 
 This is my capstone project for the [Machine Learning Operations Zoomcamp](https://datatalks.club/blog/mlops-zoomcamp.html "https://datatalks.club/blog/mlops-zoomcamp.html"), which is a free, online course offered by [DataTalks.Club](https://datatalks.club/ "https://datatalks.club/").
 
-## Summary
-
 <p align="center">
     <img src="reading-room.jpg" alt="reading-room" width="800" style="center"/>
 </p>
@@ -11,6 +9,8 @@ This is my capstone project for the [Machine Learning Operations Zoomcamp](https
 <p align="center">
 Photo by <a href="https://unsplash.com/photos/three-round-white-wooden-tables-n4y3eiQSIoc">Drahomír Hugo Posteby-Mach</a> on Unsplash.
 </p>
+
+## Summary
 
 The purpose of this capstone project is to predict higher eduction students' end-of-term performances using machine learning operations techniques. The dataset employed in this MLOps Zoomcamp project is the [Higher Education Students Performance Evaluation dataset](https://archive.ics.uci.edu/dataset/856/higher+education+students+performance+evaluation "https://archive.ics.uci.edu/dataset/856/higher+education+students+performance+evaluation") from the UCI Machine Learning Repository. The paper derived from the dataset is [Student Performance Classification Using Artificial Intelligence Techniques](https://www.semanticscholar.org/paper/d2540a82aea0f5acef91c8b4f92295ff8f312404 "https://www.semanticscholar.org/paper/d2540a82aea0f5acef91c8b4f92295ff8f312404").
 
@@ -23,6 +23,7 @@ Here is an outline of the project folder with the work I've done for this capsto
 
 ```bash
 ├── best-practices         # Reports & logs for code quality checks
+│   ├── integration-test   # Integration test folder
 │   └── tests              # Software test files
 ├── data                   # CSV and Parquet data files
 ├── deployment             # Folder for model deploying with MLflow registry & Flask
@@ -35,7 +36,7 @@ Here is an outline of the project folder with the work I've done for this capsto
 │   └── config             # Configuration folder for Evidently
 ├── orchestration          # Prefect orchestration folder
 ├── plots                  # Exploratory data analysis plots folder
-└── screenshots            # Folder for screen shots of MLflow, Prefect, Evidently and Grafana
+└── screenshots            # Screen shots of MLflow, Prefect, Evidently & Grafana
 ```
 
 
@@ -225,7 +226,29 @@ Here is the table of the prediction drift, number of drifted columns and share o
 
 In the `best-practices` folder create a virtual environment by running `pipenv install`. You need to have Pytest installed in the virtual environment, so make sure it's there otherwise run `pipenv install --dev pytest`. If you use VSCode make sure you choose the `best-practices` interpreter as the virtual environment.
 
-In the `tests` folder there is a `predict-test.py` file that you can do unit testing on using Pytest. The `test_predict` method checks to see if the output from a test entry of student data returns the expected prediction.
+In the `tests` folder there is a `predict-test.py` file that you can do unit testing on using Pytest. The `test_predict` method checks to see if the output from a test entry of student data returns the expected prediction. This can be easily verified in VSCode.
+
+#### Integration test
+
+Go into `best-practices/integration-test` and run the `run_test_integration.sh` script. The Bash script requires that Docker is up and running.
+
+```language-bash
+> bash run_test_integration.sh
+```
+ After building the Docker image, it should output the prediction from the student sample data contained in the `event.json` file as the response text, with the grade prediction.
+
+```language-bash
+# Lots of Docker build messages...
+
+[+] Running 2/2
+ ✔ Network integration-test_default      Created
+ ✔ Container integration-test-backend-1  Started
+Response text: {'grade': 5.0}
+Status code: 200
+[+] Running 2/2
+ ✔ Container integration-test-backend-1  Removed
+ ✔ Network integration-test_default      Removed
+```
 
 #### Code quality using linting and formatting
 
