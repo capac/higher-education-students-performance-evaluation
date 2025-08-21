@@ -1,12 +1,16 @@
+import os
 import pickle
 import pandas as pd
 from flask import Flask, request, jsonify
 
-xgb_model_file = 'xgb_cls.bin'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+xgb_model_file = os.path.join(BASE_DIR, 'xgb_cls.bin')
+preprocessor_file = os.path.join(BASE_DIR, 'preprocessor.bin')
+
+
 with open(xgb_model_file, 'rb') as f_in:
     model = pickle.load(f_in)
 
-preprocessor_file = 'preprocessor.bin'
 with open(preprocessor_file, 'rb') as f_in:
     preprocessor = pickle.load(f_in)
 
