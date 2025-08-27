@@ -59,7 +59,7 @@ I've completed some exploratory data analysis to get a feel for the categorical 
 The other plot in the folder shows the bar plot of the other categorical attributes.
 
 
-### Experiment tracking with MLflow
+## Experiment tracking with MLflow
 
 In the `experiment-tracking` folder, I've implemented MLflow experiment tracking to generate the best model from the data set. I've experimented several Scikit-Learn models and one with XGBoost, and decided to settle with the XGBoost model since it returned the best [area under the curve (AUC)](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve "https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve") which is the metric I used to determine the best model. The experimentation search space is saved locally using MLflow.
 
@@ -108,12 +108,12 @@ In a second terminal and in the same Pipenv environment, run the `test.py` Pytho
 python test.py
 ```
 
-#### Flask web service
+### Flask web service
 
 I wanted to test the predictions of my model using a Flask app. You can find the files for testing in the `deployment/flask-app` folder. Once you've set up a local environment by running `pipenv install` in the same folder with the `Pipfile` and `Pipfile.lock` files, and then running `pipenv shell`, run `python predict.py` in one terminal and `python test.py` in the other folder using the same Pipenv environment.
 
 
-### Orchestration with Prefect
+## Orchestration with Prefect
 
 In this project data pipelines were implemented using the latest version of Prefect, 3.4.11 at this time of this writing. In order to reproduce the workflow, go to the `orchestration` folder, open a terminal and run the following commands:
 
@@ -178,7 +178,7 @@ You can also run the deployment in the Prefect UI with the Quick run button. If 
 
 
 
-### Monitoring with Evidently
+## Monitoring with Evidently AI
 
 I've implemented local monitoring using Evidently (version 0.6.7). The data for the monitoring is saved in the `monitoring` folder. I prepared two dataframes, one for the production dataset and one for the reference dataset, and compared the two using Evidently. The data preparation is made with `data_preparation.py` script, while the monitoring is taken care of with`data_report.py` script. The output from `data_report.py` is saved in the `data_drift_report.html` and `data_stability_report.html` files, which can be easily viewed in any browser.
 
@@ -220,15 +220,15 @@ Here is the table of the prediction drift, number of drifted columns and share o
 </p>
 
 
-### Best practices
+## Best practices
 
-#### Unit tests with Pytest
+### Unit tests with Pytest
 
 In the `best-practices` folder create a virtual environment by running `pipenv install`. You need to have Pytest installed in the virtual environment, so make sure it's there otherwise run `pipenv install --dev pytest`. If you use VSCode make sure you choose the `best-practices` interpreter as the virtual environment.
 
 In the `tests` folder there is a `predict-test.py` file that you can do unit testing on using Pytest. The `test_predict` method checks to see if the output from a test entry of student data returns the expected prediction. This can be easily verified in VSCode.
 
-#### Integration test
+### Integration test
 
 Go into `best-practices/integration-test` and run the `run_test_integration.sh` script. The Bash script requires that Docker is up and running.
 
@@ -250,10 +250,10 @@ Status code: 200
  ✔ Network integration-test_default      Removed
 ```
 
-#### Code quality using linting and formatting
+### Code quality using linting and formatting
 
 Added a `pyproject.toml` file to suppress several warnings, such as `missing-module-docstring`, `missing-function-docstring`, and `invalid-name`.
 
-#### Makefile
+### Makefile
 
 Makefile for test (`pytest tests/`) and quality checks with `isort`, `black` and `pylint`.
